@@ -26,7 +26,7 @@ namespace Utilities
         private static string GetInputPath(int day)
         {
             var root = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\"));
-            return Path.Combine(root, $@"Input\Day{day.ToString("D2")}.txt");
+            return Path.Combine(root, $@"Input\Day{day:D2}.txt");
         }
     }
 }

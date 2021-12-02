@@ -7,15 +7,17 @@ namespace Solutions
 {
     public class Day02
     {
+        private static readonly int day = 2;
+
         public static void Solve()
         {
-            var input = FileReader.ReadInputAsString(2).ToList();
+            var input = FileReader.ReadInputAsString(day).ToList();
 
             var partOne = PartOne(input);
-            Console.WriteLine($"Day 02, Part One: {partOne}");
+            Console.WriteLine($"Day {day:D2}, Part One: {partOne}");
 
             var partTwo = PartTwo(input);
-            Console.WriteLine($"Day 02, Part Two: {partTwo}");
+            Console.WriteLine($"Day {day:D2}, Part Two: {partTwo}");
         }
 
         private static int PartOne(List<string> input)

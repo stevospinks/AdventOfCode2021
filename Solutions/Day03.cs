@@ -27,8 +27,8 @@ namespace Solutions
 
             for (int i = 0; i < input[0].Length; i++)
             {
-                var bitsAtPosition = input.Select(binary => char.GetNumericValue(binary[i])).ToList();
-                if (bitsAtPosition.Count(b => b == 1) > bitsAtPosition.Count / 2)
+                var bitsAtPosition = input.Select(binary => binary[i]).ToList();
+                if (bitsAtPosition.Count(b => b == '1') > bitsAtPosition.Count / 2)
                 {
                     gammaRate += '1';
                     epsilonRate += '0';
@@ -45,7 +45,42 @@ namespace Solutions
 
         private static int PartTwo(List<string> input)
         {
-            return 0;
+            var oxygenValues = new List<string>(input);
+            var co2Values = new List<string>(input);
+            for (int i = 0; i < input[0].Length; i++)
+            {
+                if (oxygenValues.Count() > 1)
+                {
+                    var mostCommonBit = GetMostCommonBitAtPosition(oxygenValues, i);
+                    oxygenValues = oxygenValues.Where(binary => binary[i] == mostCommonBit).ToList();
+                }
+
+                if (co2Values.Count() > 1)
+                {
+                    var leastCommonBit = GetLeastCommonBitAtPosition(co2Values, i);
+                    co2Values = co2Values.Where(binary => binary[i] == leastCommonBit).ToList();
+                }
+            }
+
+            var oxygenGeneratorRating = oxygenValues.Single();
+            var co2ScrubberRating = co2Values.Single();
+
+            return Convert.ToInt32(oxygenGeneratorRating, 2) * Convert.ToInt32(co2ScrubberRating, 2);
+        }
+
+        private static char GetLeastCommonBitAtPosition(IList<string> input, int position)
+        {
+            var mostCommonBit = GetMostCommonBitAtPosition(input, position);
+
+            return mostCommonBit == '1' ? '0' : '1';
+        }
+
+        private static char GetMostCommonBitAtPosition(IList<string> input, int position)
+        {
+            var bitsAtPosition = input.Select(i => i[position]).ToList();
+            var mostCommonBit = (bitsAtPosition.Count(b => b == '1') >= bitsAtPosition.Count() / 2f) ? '1' : '0';
+
+            return mostCommonBit;
         }
     }
 }

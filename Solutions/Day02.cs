@@ -30,7 +30,7 @@ namespace Solutions
                 var instructions = instruction.Split(' ');
 
                 var command = instructions[0];
-                var value = Convert.ToInt32(instructions[1]);
+                var value = int.Parse(instructions[1]);
 
                 switch (command)
                 {
@@ -62,7 +62,7 @@ namespace Solutions
                 var instructions = instruction.Split(' ');
 
                 var command = instructions[0];
-                var value = Convert.ToInt32(instructions[1]);
+                var value = int.Parse(instructions[1]);
 
                 switch (command)
                 {

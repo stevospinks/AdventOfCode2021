@@ -11,7 +11,7 @@ namespace Utilities
         {
             var lines = ReadInputAsString(day);
 
-            var result = lines.Select(l => Convert.ToInt32(l));
+            var result = lines.Select(l => int.Parse(l));
 
             return result;
         }

@@ -25,7 +25,14 @@ namespace Utilities
 
         private static string GetInputPath(int day)
         {
-            var root = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\"));
+            var root = string.Empty;
+            if (Environment.CurrentDirectory.EndsWith(@"\Solutions")) {
+                // In VS Code
+                root = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\"));
+            } else {
+                // In Visual Studio
+                root = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\"));
+            }
             return Path.Combine(root, $@"Input\Day{day:D2}.txt");
         }
     }

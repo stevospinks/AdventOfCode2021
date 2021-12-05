@@ -118,7 +118,81 @@ namespace Solutions
 
         private static int PartTwo(List<string> input)
         {
-            return 0;
+            var numbersCalled = input[0].Split(',').Select(n => int.Parse(n));
+            var boards = ParseBoards(input);
+            var winningBoards = new List<Tuple<int, bool>[,]>();
+            foreach (var numberCalled in numbersCalled)
+            {
+                var lastBoard = false;
+                if (winningBoards.Count == boards.Count - 1)
+                {
+                    lastBoard = true;
+                }
+
+                foreach (var board in boards)
+                {
+                    if (winningBoards.Contains(board))
+                    {
+                        continue;
+                    }
+
+                    var win = false;
+                    for (int i = 0; i < board.GetLength(0); i++)
+                    {
+                        var marked = false;
+                        for (int j = 0; j < board.GetLength(1); j++)
+                        {
+                            if (board[i, j].Item1 == numberCalled)
+                            {
+                                board[i, j] = new Tuple<int, bool>(board[i, j].Item1, true);
+                                marked = true;
+
+                                var fullRow = Enumerable.Range(0, board.GetLength(0)).Select(r => board[i, r]).All(v => v.Item2);
+                                if (fullRow)
+                                {
+                                    win = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    var fullColumn = Enumerable.Range(0, board.GetLength(1)).Select(c => board[c, j]).All(v => v.Item2);
+                                    if (fullColumn)
+                                    {
+                                        win = true;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            }
+
+                            if (marked || win)
+                            {
+                                break;
+                            }
+                        }
+
+                        if (marked || win)
+                        {
+                            marked = false;
+                            break;
+                        }
+                    }
+
+                    if (win)
+                    {
+                        if (lastBoard && board == boards.Except(winningBoards).Single())
+                        {
+                            return ProcessWin(numberCalled, board);
+                        }
+
+                        winningBoards.Add(board);
+                        win = false;
+                    }
+                }
+            }
+
+            return -1;
         }
     }
 }

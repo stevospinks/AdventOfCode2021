@@ -22,7 +22,7 @@ namespace Solutions
 
         private static int PartOne(List<int> input)
         {
-            var days = 80;
+            const int days = 80;
 
             var lanternfishSchoolToday = new List<int>(input);
             List<int> lanternfishSchoolYesterday;
@@ -50,9 +50,40 @@ namespace Solutions
             return lanternfishSchoolToday.Count;
         }
 
-        private static int PartTwo(List<int> input)
+        private static long PartTwo(List<int> input)
         {
-            return -1;
+            const int days = 256;
+            const int daysBetweenBirths = 6; // 7 but 0 is counted
+            const int daysBeforeFirstBirth = 8; // 9 but 0 is counted
+
+            Dictionary<int, long> lanternfishSchoolYesterday;
+            var lanternfishSchoolToday = new Dictionary<int, long>();
+            for (int i = 0; i < daysBeforeFirstBirth; i++)
+            {
+                lanternfishSchoolToday.Add(i, input.Count(val => val == i));
+            }
+
+            for (int dayNumber = 0; dayNumber < days; dayNumber++)
+            {
+                lanternfishSchoolYesterday = new Dictionary<int, long>(lanternfishSchoolToday);
+
+                for (int daysRemainingUntilBirth = lanternfishSchoolYesterday.Keys.Max(); daysRemainingUntilBirth >= 0; daysRemainingUntilBirth--)
+                {
+                    var lanternfish = lanternfishSchoolYesterday.Single(l => l.Key == daysRemainingUntilBirth);
+                    if (lanternfish.Key == 0)
+                    {
+                        lanternfishSchoolToday[daysBetweenBirths] = lanternfishSchoolToday[daysBetweenBirths] + lanternfish.Value;
+                        lanternfishSchoolToday[daysBeforeFirstBirth] = lanternfish.Value;
+                    }
+                    else
+                    {
+                        lanternfishSchoolToday[lanternfish.Key - 1] = lanternfish.Value;
+                    }
+                }
+
+            }
+
+            return lanternfishSchoolToday.Values.Sum();
         }
     }
 }

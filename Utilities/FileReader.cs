@@ -7,9 +7,14 @@ namespace Utilities
 {
     public static class FileReader
     {
-        public static IEnumerable<int> ReadInputAsInt(int day)
+        public static IEnumerable<int> ReadInputAsInt(int day, string seperator = "\r\n")
         {
             var lines = ReadInputAsString(day);
+
+            if (seperator != "\r\n")
+            {
+                lines = lines.Single().Split(seperator);
+            }
 
             var result = lines.Select(l => int.Parse(l));
 
@@ -25,14 +30,18 @@ namespace Utilities
 
         private static string GetInputPath(int day)
         {
-            var root = string.Empty;
-            if (Environment.CurrentDirectory.EndsWith(@"\Solutions")) {
+            string root;
+            if (Environment.CurrentDirectory.EndsWith(@"\Solutions"))
+            {
                 // In VS Code
                 root = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\"));
-            } else {
+            }
+            else
+            {
                 // In Visual Studio
                 root = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\"));
             }
+
             return Path.Combine(root, $@"Input\Day{day:D2}.txt");
         }
     }

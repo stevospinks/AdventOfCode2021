@@ -31,7 +31,26 @@ namespace Solutions
 
         private static int PartTwo(List<int> input)
         {
-            return -1;
+            var mean = input.Sum() / (decimal)input.Count;
+            var meanRoundedUp = (int)Math.Round(mean, MidpointRounding.AwayFromZero);
+            var meanRoundedDown = (int)Math.Round(mean, MidpointRounding.ToZero);
+
+            var resultFromMeanRoundedUp = input.Sum(i => i <= meanRoundedUp ? CalculateFuelUsage(meanRoundedUp - i) : CalculateFuelUsage(i - meanRoundedUp));
+            var resultFromMeanRoundedDown = input.Sum(i => i <= meanRoundedDown ? CalculateFuelUsage(meanRoundedDown - i) : CalculateFuelUsage(i - meanRoundedDown));
+
+            return resultFromMeanRoundedUp < resultFromMeanRoundedDown ? resultFromMeanRoundedUp : resultFromMeanRoundedDown;
+        }
+
+        private static int CalculateFuelUsage(decimal distance)
+        {
+            var result = 0;
+
+            for (int i = 1; i <= distance; i++)
+            {
+                result += (i);
+            }
+
+            return result;
         }
     }
 }

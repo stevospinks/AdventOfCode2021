@@ -11,6 +11,7 @@
             Day05.Solve();
             Day06.Solve();
             Day07.Solve();
+            Day08.Solve();
         }
     }
 }

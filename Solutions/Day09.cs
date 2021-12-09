@@ -77,7 +77,68 @@ namespace Solutions
 
         private static int PartTwo(List<string> input)
         {
-            return -1;
+            var heightmap = GenerateHeightmap(input);
+            var processedCoordinates = new List<(int, int)>();
+            var basinSizes = new List<int>();
+
+            for (int x = 0; x < heightmap.GetLength(0); x++)
+            {
+                for (int y = 0; y < heightmap.GetLength(1); y++)
+                {
+                    if (IsLowestPoint(heightmap, x, y, out _))
+                    {
+                        var basinCoordinates = CalculateBasin(heightmap, x, y, processedCoordinates);
+                        if (basinCoordinates.Any())
+                        {
+                            basinSizes.Add(basinCoordinates.Count);
+                        }
+                    }
+                }
+            }
+
+            var result = basinSizes.OrderByDescending(s => s).Take(3).ToList();
+            return result[0] * result[1] * result[2];
+        }
+
+        private static List<(int, int)> CalculateBasin(int[,] heightmap, int x, int y, List<(int, int)> processedCoordinates)
+        {
+            var maxX = heightmap.GetLength(0) - 1;
+            var maxY = heightmap.GetLength(1) - 1;
+
+            var basinCoordinates = new List<(int, int)>();
+            if (processedCoordinates.Contains((x, y)))
+            {
+                return basinCoordinates;
+            }
+
+            basinCoordinates.Add((x, y));
+            processedCoordinates.Add((x, y));
+
+            var heightNorth = (y - 1 < 0) ? null : (int?)heightmap.GetValue(x, y - 1);
+            if (heightNorth.HasValue && heightNorth.Value < 9)
+            {
+                basinCoordinates.AddRange(CalculateBasin(heightmap, x, y - 1, processedCoordinates));
+            }
+
+            var heightEast = (x + 1 > maxX) ? null : (int?)heightmap.GetValue(x + 1, y);
+            if (heightEast.HasValue && heightEast.Value < 9)
+            {
+                basinCoordinates.AddRange(CalculateBasin(heightmap, x + 1, y, processedCoordinates));
+            }
+
+            var heightSouth = (y + 1 > maxY) ? null : (int?)heightmap.GetValue(x, y + 1);
+            if (heightSouth.HasValue && heightSouth.Value < 9)
+            {
+                basinCoordinates.AddRange(CalculateBasin(heightmap, x, y + 1, processedCoordinates));
+            }
+
+            var heightWest = (x - 1 < 0) ? null : (int?)heightmap.GetValue(x - 1, y);
+            if (heightWest.HasValue && heightWest.Value < 9)
+            {
+                basinCoordinates.AddRange(CalculateBasin(heightmap, x - 1, y, processedCoordinates));
+            }
+
+            return basinCoordinates;
         }
     }
 }

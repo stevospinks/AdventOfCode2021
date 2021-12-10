@@ -34,17 +34,11 @@ namespace Solutions
                     }
                     else
                     {
-                        if (characters.TryPop(out char poppedCharacter))
+                        var poppedCharacter = characters.Pop();
+                        if (GetMatchingOpeningCharacter(character) != poppedCharacter)
                         {
-                            if (GetMatchingOpeningCharacter(character) != poppedCharacter) {
-                                // Corrupted line
-                                illegalCharacters.Add(character);
-                            }
-                        }
-                        else
-                        {
-                            // Unfinished line, ignore for now;
-                            break;
+                            // Corrupted line
+                            illegalCharacters.Add(character);
                         }
                     }
                 }
@@ -76,6 +70,20 @@ namespace Solutions
             return openingCharacter;
         }
 
+        private static char GetMatchingClosingCharacter(char openingCharacter)
+        {
+            var closingCharacter = openingCharacter switch
+            {
+                '(' => ')',
+                '[' => ']',
+                '{' => '}',
+                '<' => '>',
+                _ => throw new ArgumentException($"'{openingCharacter}' is not a supported character"),
+            };
+
+            return closingCharacter;
+        }
+
         private static int CalculateScore(List<char> illegalCharacters)
         {
             var score = 0;
@@ -94,9 +102,75 @@ namespace Solutions
             return score;
         }
 
-        private static int PartTwo(List<string> input)
+        private static long CalculateScore(List<string> completionStrings)
         {
-            return -1;
+            var scores = new List<long>();
+            foreach (var completionString in completionStrings)
+            {
+                long score = 0;
+                foreach (var character in completionString)
+                {
+                    score *= 5;
+                    score += character switch
+                    {
+                        ')' => 1,
+                        ']' => 2,
+                        '}' => 3,
+                        '>' => 4,
+                        _ => throw new ArgumentException($"'{character}' is not a supported character"),
+                    };
+                }
+
+                scores.Add(score);
+            }
+
+            scores.Sort();
+            var middlePosition = (int)Math.Ceiling(scores.Count / 2f);
+            var result = scores.ElementAt(middlePosition - 1);
+            return result;
+        }
+
+        private static long PartTwo(List<string> input)
+        {
+            var completionStrings = new List<string>();
+            foreach (var line in input)
+            {
+                var characters = new Stack<char>();
+                var corrupted = false;
+                for (int i = 0; i < line.Length; i++)
+                {
+                    var character = line[i];
+                    if (IsOpeningCharacter(character))
+                    {
+                        characters.Push(character);
+                    }
+                    else
+                    {
+                        var poppedCharacter = characters.Pop();
+                        if (GetMatchingOpeningCharacter(character) != poppedCharacter)
+                        {
+                            // Corrupted line, ignore
+                            corrupted = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!corrupted && characters.Any())
+                {
+                    // Unfinished line
+                    var completionString = string.Empty;
+                    foreach (var unfinshedCharacter in characters)
+                    {
+                        completionString += GetMatchingClosingCharacter(unfinshedCharacter);
+                    }
+
+                    completionStrings.Add(completionString);
+                }
+            }
+
+            var result = CalculateScore(completionStrings);
+            return result;
         }
     }
 }

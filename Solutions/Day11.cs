@@ -40,7 +40,21 @@ namespace Solutions
 
         private static int PartTwo(List<string> input)
         {
-            return -1;
+            var result = 0;
+            var grid = GenerateGrid(input);
+            
+            var flashed = new List<(int, int)>();
+            while (flashed.Count < grid.Length)
+            {
+                flashed.Clear();
+
+                IncreaseEnergy(grid);
+                ProcessFlash(grid, flashed);
+
+                result++;
+            }
+
+            return result;
         }
 
         private static int[,] GenerateGrid(List<string> input)

@@ -29,7 +29,9 @@ namespace Solutions
 
         private static int PartTwo(List<string> input)
         {
-            return -1;
+            var map = ParseInput(input);
+            var paths = BuildPaths(map, 2, 1);
+            return paths.Count();
         }
 
         private static Dictionary<string, List<string>> ParseInput(List<string> input)
@@ -42,13 +44,16 @@ namespace Solutions
                 var source = lineSplit[0];
                 var destination = lineSplit[1];
 
-                if (result.TryGetValue(source, out var startValue))
+                if (source != "end" && destination != "start")
                 {
-                    startValue.Add(destination);
-                }
-                else
-                {
-                    result.Add(source, new List<string> { destination });
+                    if (result.TryGetValue(source, out var startValue))
+                    {
+                        startValue.Add(destination);
+                    }
+                    else
+                    {
+                        result.Add(source, new List<string> { destination });
+                    }
                 }
 
                 // Add routes in the opposite direction
@@ -68,8 +73,9 @@ namespace Solutions
             return result;
         }
 
-        private static List<List<string>> BuildPaths(Dictionary<string, List<string>> map, List<string> currentPath = null)
+        private static List<List<string>> BuildPaths(Dictionary<string, List<string>> map, int visitLimitPerSmallCave = 1, int maxSmallCaveRevisits = 0, List<string> currentPath = null)
         {
+            int? smallCaveRevisits = null;
             var paths = new List<List<string>>();
             if (currentPath == null)
             {
@@ -84,7 +90,25 @@ namespace Solutions
                 var smallCave = destination.ToLowerInvariant() == destination;
                 if (smallCave && currentPath.Contains(destination))
                 {
-                    continue;
+                    var visits = currentPath.Count(p => p == destination);
+                    if (visits == visitLimitPerSmallCave)
+                    {
+                        continue;
+                    }
+
+                    // Make sure we only calculate this once per method call
+                    if (smallCaveRevisits == null)
+                    {
+                        var smallCavesVisited = currentPath.Where(p => p.ToLowerInvariant() == p);
+                        var all = smallCavesVisited.Count();
+                        var unique = smallCavesVisited.Distinct().Count();
+                        smallCaveRevisits = all - unique;
+                    }
+
+                    if (smallCaveRevisits == maxSmallCaveRevisits)
+                    {
+                        continue;
+                    }
                 }
 
                 var newPath = new List<string>(currentPath);
@@ -96,7 +120,7 @@ namespace Solutions
                     continue;
                 }
 
-                paths.AddRange(BuildPaths(map, newPath));
+                paths.AddRange(BuildPaths(map, visitLimitPerSmallCave, maxSmallCaveRevisits, newPath));
             }
 
             return paths;

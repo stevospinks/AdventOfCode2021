@@ -11,6 +11,7 @@ namespace Solutions
         private static readonly string instructionBegins = "fold along ";
         private static readonly char paperMark = '#';
         private static readonly char blankMark = ' ';
+        private static readonly string arrayDisplayNewLine = "\r\n                  ";
 
         public static void Solve()
         {
@@ -20,7 +21,7 @@ namespace Solutions
             Console.WriteLine($"Day {day:D2}, Part One: {partOne}");
 
             var partTwo = PartTwo(input);
-            Console.WriteLine($"Day {day:D2}, Part Two:\r\n{partTwo}");
+            Console.WriteLine($"Day {day:D2}, Part Two: {partTwo}");
         }
 
         private static int PartOne(List<string> input)
@@ -38,7 +39,7 @@ namespace Solutions
             var finalGrid = ProcessInstructions(startingGrid, instructions);
             var results = GetGridOutputAsString(finalGrid);
 
-            return string.Join("\r\n", results);
+            return string.Join(arrayDisplayNewLine, results);
         }
 
         private static char[,] ParseInput(List<string> input, out List<(string, int)> instructions)

@@ -18,7 +18,7 @@ namespace Solutions
             Console.WriteLine($"Day {day:D2}, Part One: {partOne}");
 
             var partTwo = skipSlowSolves ? -1 : PartTwo(input);
-            Console.WriteLine($"Day {day:D2}, Part Two: {(skipSlowSolves ? "*skipped*" : partTwo.ToString())}");
+            Console.WriteLine($"Day {day:D2}, Part Two: {(skipSlowSolves ? "*skipped slow solve*" : partTwo.ToString())}");
         }
 
         private static int PartOne(List<string> input)

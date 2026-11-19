@@ -8,7 +8,6 @@ namespace Solutions
     public class Day12
     {
         private static readonly int day = 12;
-        private static readonly bool skipSlowSolves = true;
 
         public static void Solve()
         {
@@ -17,8 +16,8 @@ namespace Solutions
             var partOne = PartOne(input);
             Console.WriteLine($"Day {day:D2}, Part One: {partOne}");
 
-            var partTwo = skipSlowSolves ? -1 : PartTwo(input);
-            Console.WriteLine($"Day {day:D2}, Part Two: {(skipSlowSolves ? "*skipped*" : partTwo.ToString())}");
+            var partTwo = PartTwo(input);
+            Console.WriteLine($"Day {day:D2}, Part Two: {partTwo.ToString()}");
         }
 
         private static int PartOne(List<string> input)

@@ -156,13 +156,13 @@ namespace Solutions
                     }
                 }
 
-                if (!corrupted && characters.Any())
+                if (!corrupted && characters.Count != 0)
                 {
                     // Unfinished line
                     var completionString = string.Empty;
-                    foreach (var unfinshedCharacter in characters)
+                    foreach (var unfinishedCharacter in characters)
                     {
-                        completionString += GetMatchingClosingCharacter(unfinshedCharacter);
+                        completionString += GetMatchingClosingCharacter(unfinishedCharacter);
                     }
 
                     completionStrings.Add(completionString);

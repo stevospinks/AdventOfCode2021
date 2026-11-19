@@ -47,7 +47,7 @@ namespace Solutions
 
             for (int i = 1; i <= distance; i++)
             {
-                result += (i);
+                result += i;
             }
 
             return result;

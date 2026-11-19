@@ -7,13 +7,13 @@ namespace Utilities
 {
     public static class FileReader
     {
-        public static IEnumerable<int> ReadInputAsInt(int day, string seperator = "\r\n")
+        public static IEnumerable<int> ReadInputAsInt(int day, string separator = "\r\n")
         {
             var lines = ReadInputAsString(day);
 
-            if (seperator != "\r\n")
+            if (separator != "\r\n")
             {
-                lines = lines.Single().Split(seperator);
+                lines = lines.Single().Split(separator);
             }
 
             var result = lines.Select(l => int.Parse(l));

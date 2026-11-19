@@ -49,13 +49,13 @@ namespace Solutions
             var co2Values = new List<string>(input);
             for (int i = 0; i < input[0].Length; i++)
             {
-                if (oxygenValues.Count() > 1)
+                if (oxygenValues.Count > 1)
                 {
                     var mostCommonBit = GetMostCommonBitAtPosition(oxygenValues, i);
                     oxygenValues = oxygenValues.Where(binary => binary[i] == mostCommonBit).ToList();
                 }
 
-                if (co2Values.Count() > 1)
+                if (co2Values.Count > 1)
                 {
                     var leastCommonBit = GetLeastCommonBitAtPosition(co2Values, i);
                     co2Values = co2Values.Where(binary => binary[i] == leastCommonBit).ToList();
@@ -78,7 +78,7 @@ namespace Solutions
         private static char GetMostCommonBitAtPosition(IList<string> input, int position)
         {
             var bitsAtPosition = input.Select(i => i[position]).ToList();
-            var mostCommonBit = (bitsAtPosition.Count(b => b == '1') >= bitsAtPosition.Count() / 2f) ? '1' : '0';
+            var mostCommonBit = (bitsAtPosition.Count(b => b == '1') >= bitsAtPosition.Count / 2f) ? '1' : '0';
 
             return mostCommonBit;
         }

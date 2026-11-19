@@ -91,10 +91,10 @@ namespace Solutions
                 var splitEntry = entry.Split(" | ");
 
                 var signalPatterns = splitEntry[0].Split(' ');
-                var signalPatternsOrdered = signalPatterns.Select(sp => SortStringAlphabetically(sp)).ToList();
+                var signalPatternsOrdered = signalPatterns.Select(SortStringAlphabetically).ToList();
 
                 var outputValues = splitEntry[1].Split(' ');
-                var outputValuesOrdered = outputValues.Select(sp => SortStringAlphabetically(sp)).ToList();
+                var outputValuesOrdered = outputValues.Select(SortStringAlphabetically).ToList();
                 var mappingSegmentToSegment = CalculateSegmentToSegmentMapping(signalPatternsOrdered);
 
                 var outputValueTranslated = string.Empty;
@@ -144,7 +144,7 @@ namespace Solutions
             mappingSegmentToSegment.Add('c', signalPatternsOrdered.Where(s => s.Length == 6).Count(s => s.Contains(valuesToCheck[0])) == 2 ? valuesToCheck[0] : valuesToCheck[1]);
             
             // e = difference between 8 and 9 (9 = only 5-segment display without c) + c
-            var valueForNine = SortStringAlphabetically(signalPatternsOrdered.Where(s => s.Length == 5 && !s.Contains(mappingSegmentToSegment['c'])).Single() + mappingSegmentToSegment['c']);
+            var valueForNine = SortStringAlphabetically(signalPatternsOrdered.Single(s => s.Length == 5 && !s.Contains(mappingSegmentToSegment['c'])) + mappingSegmentToSegment['c']);
             mappingSegmentToSegment.Add('e', signalPatternsOrdered.Single(o => o.Length == mappingValueToSegmentCount[8]).Except(valueForNine).Single());
             
             // f = 7 - a,c
@@ -153,7 +153,7 @@ namespace Solutions
             
             // d = difference between 8 and 0 (0 = only 6-segment display containing a, c, e, f)
             var acef = new List<char> { mappingSegmentToSegment['a'], mappingSegmentToSegment['c'], mappingSegmentToSegment['e'], mappingSegmentToSegment['f'] };
-            var valueForZero = SortStringAlphabetically(signalPatternsOrdered.Where(s => s.Length == 6 && s.Except(acef).Count() == 2).Single());
+            var valueForZero = SortStringAlphabetically(signalPatternsOrdered.Single(s => s.Length == 6 && s.Except(acef).Count() == 2));
             mappingSegmentToSegment.Add('d', signalPatternsOrdered.Single(o => o.Length == mappingValueToSegmentCount[8]).Except(valueForZero).Single());
             
             // b = 4 - c,d,f

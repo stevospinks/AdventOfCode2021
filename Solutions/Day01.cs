@@ -25,7 +25,7 @@ namespace Solutions
             var result = 0;
 
             // Ignore the first input, nothing to compare it to
-            for (int i = 1; i < input.Count(); i++)
+            for (int i = 1; i < input.Count; i++)
             {
                 if (input[i] > input[i - 1])
                 {
@@ -42,13 +42,13 @@ namespace Solutions
 
             var measurementWindowSums = new List<int>();
             // Ignore the first two inputs, cannot create window
-            for (int i = 2; i < input.Count(); i++)
+            for (int i = 2; i < input.Count; i++)
             {
                 measurementWindowSums.Add(input[i] + input[i - 1] + input[i - 2]);
             }
 
             // Ignore the first input, nothing to compare it to
-            for (int i = 1; i < measurementWindowSums.Count(); i++)
+            for (int i = 1; i < measurementWindowSums.Count; i++)
             {
                 if (measurementWindowSums[i] > measurementWindowSums[i - 1])
                 {

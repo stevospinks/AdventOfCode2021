@@ -53,7 +53,7 @@ namespace Solutions
                 var maxY = y1 < y2 ? y2 : y1;
                 var xEqual = minX == maxX;
 
-                for (int i = (xEqual ? minY : minX); i <= (xEqual ? maxY : maxX); i++)
+                for (int i = xEqual ? minY : minX; i <= (xEqual ? maxY : maxX); i++)
                 {
                     var newCoordinate = xEqual ? new Tuple<int, int>(x1, i) : new Tuple<int, int>(i, y1);
                     if (coverageCoordinates.ContainsKey(newCoordinate))

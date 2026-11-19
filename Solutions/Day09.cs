@@ -88,7 +88,7 @@ namespace Solutions
                     if (IsLowestPoint(heightmap, x, y, out _))
                     {
                         var basinCoordinates = CalculateBasin(heightmap, x, y, processedCoordinates);
-                        if (basinCoordinates.Any())
+                        if (basinCoordinates.Count != 0)
                         {
                             basinSizes.Add(basinCoordinates.Count);
                         }

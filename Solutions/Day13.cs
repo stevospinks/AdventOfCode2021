@@ -50,7 +50,7 @@ namespace Solutions
             instructions = instructionStrings.Select(i => i.Replace(instructionBegins, "").Split('=')).Select(isp => (isp[0], int.Parse(isp[1]))).ToList();
             var coordinates = coordinateStrings.Select(c => c.Split(',')).Select(cs => (int.Parse(cs[0]), int.Parse(cs[1]))).ToList();
 
-            var grid = new char[coordinates.Select(c => c.Item1).Max() + 1, coordinates.Select(c => c.Item2).Max() + 1];
+            var grid = new char[coordinates.Max(c => c.Item1) + 1, coordinates.Max(c => c.Item2) + 1];
             foreach (var coordinate in coordinates)
             {
                 grid[coordinate.Item1, coordinate.Item2] = paperMark;

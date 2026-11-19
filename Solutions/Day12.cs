@@ -24,14 +24,14 @@ namespace Solutions
         {
             var map = ParseInput(input);
             var paths = BuildPaths(map);
-            return paths.Count();
+            return paths.Count;
         }
 
         private static int PartTwo(List<string> input)
         {
             var map = ParseInput(input);
             var paths = BuildPaths(map, 2, 1);
-            return paths.Count();
+            return paths.Count;
         }
 
         private static Dictionary<string, List<string>> ParseInput(List<string> input)

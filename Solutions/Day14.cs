@@ -82,7 +82,7 @@ namespace Solutions
                     template = polymer;
                 }
 
-                long newSize = (template.LongLength * (replacementSize + 1)) - (replacementSize);
+                long newSize = (template.LongLength * (replacementSize + 1)) - replacementSize;
                 if (newSize > uint.MaxValue)
                 {
                     throw new IndexOutOfRangeException($"{newSize} > {uint.MaxValue}!");
@@ -152,7 +152,7 @@ namespace Solutions
                 rulesToCountMapping.Add(rule.Key, mapping);
             }
 
-            // Do the final expansion uing the character counts
+            // Do the final expansion using the character counts
             var results = initialRules.Select(ir => ir.Value.Single()).Distinct().ToDictionary(e => e, _ => 0L);
             for (long i = 1; i < polymer.LongLength; i++)
             {

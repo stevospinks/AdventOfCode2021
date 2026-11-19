@@ -32,7 +32,7 @@ namespace Solutions
                 var flashed = new List<(int, int)>();
                 ProcessFlash(grid, flashed);
 
-                result += flashed.Count();
+                result += flashed.Count;
             }
 
             return result;
@@ -106,19 +106,19 @@ namespace Solutions
             grid.SetValue(0, x, y);
             flashed.Add((x, y));
 
-            ProcesssFlashEffect(grid, x - 1, y - 1, flashed); // North West
-            ProcesssFlashEffect(grid, x, y - 1, flashed); // North
-            ProcesssFlashEffect(grid, x + 1, y - 1, flashed); // North East
+            ProcessFlashEffect(grid, x - 1, y - 1, flashed); // North West
+            ProcessFlashEffect(grid, x, y - 1, flashed); // North
+            ProcessFlashEffect(grid, x + 1, y - 1, flashed); // North East
 
-            ProcesssFlashEffect(grid, x - 1, y, flashed); // West
-            ProcesssFlashEffect(grid, x + 1, y, flashed); // East
+            ProcessFlashEffect(grid, x - 1, y, flashed); // West
+            ProcessFlashEffect(grid, x + 1, y, flashed); // East
 
-            ProcesssFlashEffect(grid, x - 1, y + 1, flashed); // South West
-            ProcesssFlashEffect(grid, x, y + 1, flashed); // South
-            ProcesssFlashEffect(grid, x + 1, y + 1, flashed); // South East
+            ProcessFlashEffect(grid, x - 1, y + 1, flashed); // South West
+            ProcessFlashEffect(grid, x, y + 1, flashed); // South
+            ProcessFlashEffect(grid, x + 1, y + 1, flashed); // South East
         }
 
-        private static void ProcesssFlashEffect(int[,] grid, int x, int y, List<(int, int)> flashed)
+        private static void ProcessFlashEffect(int[,] grid, int x, int y, List<(int, int)> flashed)
         {
             var maxX = grid.GetLength(0) - 1;
             var maxY = grid.GetLength(1) - 1;
